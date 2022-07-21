@@ -28,7 +28,7 @@ google_maps: 'https://goo.gl/maps/CaLE2wcq3y8chyKo8'
 address:
   street: COM1, 13, Computing Drive
   postcode: 117417
-  city: Singapore
+  # city: Singapore
   country: Singapore
 google_analytics: UA-143142181-1
 
