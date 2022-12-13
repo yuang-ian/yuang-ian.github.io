@@ -15,7 +15,7 @@ url: http://yuang-ian.github.io/
 baseurl: /
 title: Yuang Shi
 author: Yuang Shi
-description: Personal blog and resume
+description: Acadamic Personal Website
 avatar: profile.png
 email: yuangshi@u.nus.edu
 github: Shiyuang-scu # username
@@ -25,6 +25,7 @@ linkedin: yuang-shi-439973163
 # medium: username #e.g: NobelPeaceOslo
 #Comment out if you don't want disqus
 # disqus: username
+google: citations?user=ytwibHUAAAAJ&hl=en
 google_analytics: UA-143142181-1
 
 
