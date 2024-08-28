@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="LapisGS: Layered Progressive 3D Gaussian Splatting for Adaptive Streaming.">
+  <meta name="keywords" content="Adaptive streaming, 3D Gaussian Splatting, Level of Details">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LapisGS</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="./static/css/bootstrap-4.4.1.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/lapis.png">
+  
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <script src="./static/js/event_handler.js"></script>
+  <script src="./static/js/dics.original.js"></script>
+</head>
+<body>
+
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="margin-bottom: 0">
+            <!-- <img src="static/images/lapis.png" alt="icon" style="width: 24px; vertical-align: middle; margin-right: 8px;"> -->
+            <img src="static/images/title.png" alt="icon" style="height: 1em; vertical-align: middle; margin-right: 0.1em;">
+            <strong>LapisGS: </strong>
+          </h1>
+          <h1 class="title is-2 publication-title" style="margin-top: 0; margin-bottom: 0">Layered Progressive 3D Gaussian Splatting for Adaptive Streaming</h2>
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="yuang-ian.github.io">Yuang Shi</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=PbKu-PsAAAAJ&hl=en">Simone Gasparini</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.de/citations?user=H8QDhhAAAAAJ&hl=en">Géraldine Morin</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.comp.nus.edu.sg/~ooiwt/">Wei Tsang Ooi</a><sup>2</sup>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>National University of Singapore,</span>
+            <span class="author-block"><sup>2</sup>IRIT - University of Toulouse</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2408.14823"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="http://arxiv.org/abs/2408.14823"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/Shiyuang-scu/lapis-gs"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/teaser.mp4"
+                  type="video/mp4">
+        </video> -->
+        <img src="./static/images/teaser.png" class="center" style="width: 90%">
+        <br>
+        <br>
+        <h2 class="subtitle has-text-justified">
+          TL;DR: We introduce <strong><i>LapisGS</i></strong>, a layered progressive 3D Gaussian Splatting (3DGS), for adaptive streaming and view-adaptive rendering.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/steve.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/chair-tp.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/shiba.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/fullbody.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/blueshirt.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mask.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            The rise of Extended Reality (XR) requires efficient streaming of 3D online worlds, challenging current 3DGS representations to adapt to bandwidth-constrained environments. 
+          </p>
+          <p>
+            We propose <strong><i>LapisGS</i></strong>, a layered 3DGS that supports adaptive streaming and progressive rendering. Our method constructs a layered structure for cumulative representation, incorporates dynamic opacity optimization to maintain visual fidelity, and utilizes occupancy maps to efficiently manage Gaussian splats.  This proposed model offers a progressive representation supporting a continuous rendering quality adapted for bandwidth-aware streaming.
+          </p>
+          <p>
+            Extensive experiments validate the effectiveness of our approach in balancing visual fidelity with the compactness of the model, with up to <strong>50.71%</strong> improvement in SSIM, <strong>286.53%</strong> improvement in LPIPS, and <strong>318.41%</strong> reduction in model size, and shows its potential for bandwidth-adapted 3D streaming and rendering applications.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Motivation. -->
+    <h2 class="title is-3 has-text-centered">Motivation</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-fifths image-column">
+        <img src="./static/images/illustration_comp.png" class="center">
+      </div>
+      <div class="column is-three-fifths image-column">
+        <div class="content has-text-justified">
+          <p>
+            Existing methods are primarily designed for reconstruction quality and rendering speed, without considering the challenges of adaptive streaming. These space-based 3DGS hierarchies (Upper at the Figure) feature discrete quality layers, each independently represented by a set of anchor splats. This approach requires substantial computational resources for maintenance and navigation, especially with frequent level transitions, and limits view-adaptive rendering. 
+          </p>
+          <p>
+            To stream 3DGS over diverse and dynamic networks and heterogeneous devices, a layered progressive representation (Lower at the Figure) is needed. This representation must meet specific requirements: (i) The subsets of Gaussian splats in the model are able to represent complete 3D content with reduced details; (ii) The progressive LOD inherently shares visual information with lower levels to minimize redundancy in streaming and support view-adaptive rendering.
+          </p>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Motivation. -->
+    <h2 class="title is-3 has-text-centered">Methodology</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-two-fifths image-column">
+        <div class="content has-text-justified">
+          <p>
+            At the core of LapisGS is a <strong>layered structure for cumulative representation</strong>, where each layer adds additional details to the existing base layers, progressively refining the representation. 
+          </p>
+          <p>
+            To force coherence among layers while avoiding re-encoding lower layers, we incorporate <strong>dynamic opacity optimization</strong> during training, allowing for selective adjustment of layer contributions for optimal visual fidelity. 
+          </p>
+          <p>
+            We then utilize an <strong>occupancy map</strong> to track and exclude less important Gaussian splats during streaming and rendering. 
+          </p>
+        </div>
+      </div>
+      <div class="column is-three-fifths image-column">
+        <img src="./static/images/methodology.png" class="center">
+      </div>
+    </div>
+</section>
+
+
+
+<!-- <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" style="margin-top: -20px">Methodology</h2>
+        <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+        <img src="./static/images/methodology.png" class="center" style="width: 60%;">
+        <div class="content has-text-justified">
+          <p>
+            At the core of LapisGS is a layered structure for cumulative representation, where each layer adds additional details to the existing base layers, progressively refining the representation. 
+          </p>
+          <p>
+            To force coherence among layers while avoiding re-encoding lower layers, we incorporate dynamic opacity optimization during training, allowing for selective adjustment of layer contributions for optimal visual fidelity. 
+          </p>
+          <p>
+            We then utilize an occupancy map to track and exclude less important Gaussian splats during streaming and rendering, improving computational and storage efficiency. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: -30px">Results</h2>
+        <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+        <img src="./static/images/results_fig.png" class="center" style="width: 100%; margin: 30px auto;">
+        <h3 class="title is-4">Comparison wtih Downsample Method</h3>
+        <div class="content has-text-justified">
+          <p>
+            The downsampled model shows significant degradation in visual quality as model size decreases. This suggests that traditional downsampling methods for point clouds are inadequate for 3DGS, primarily because they fail to re-optimize or re-learn the model for the reduced set of splats. Given the unique distribution and anisotropic nature of Gaussian splats, simply reducing the number of splats without retraining does not capture the high-frequency details or maintain the model's original fidelity.
+          </p>
+        </div>
+        <h3 class="title is-4">Comparison wtih Single-scale Method</h3>
+        <div class="content has-text-justified">
+          <p>
+            LapisGS achieves notable improvements in both visual quality and model size compared to the single-scale method. These results emphasize the necessity of constructing a multiscale 3DGS LOD model and highlight the effectiveness and efficiency of our method in maintaining visual fidelity while reducing data overhead.
+          </p>
+        </div>
+        <h3 class="title is-4">Comparison wtih Multiscale Method</h3>
+        <div class="content has-text-justified">
+          <p>
+            LapisGS rivals the multiscale model, which serves as the upper bound for reconstruction quality, achieving comparable visual fidelity with up to a 2.33X smaller model size. This demonstrates that our method effectively balances high and low resolutions, creating a compact yet highly detailed representation.
+          </p>
+        </div>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4">Visualized Comparison</h3>
+          <p>
+            We provide sample renderings of different methods for better comparison.
+          </p>
+        </div>
+        
+        <div class="container">
+          <ul class="nav nav-tabs nav-fill nav-justified" id="object-scale-recon-garden">
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEventGarden(0)">\(L_0\)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEventGarden(1)">\(L_1\)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" onclick="objectSceneEventGarden(2)">\(L_2\)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEventGarden(3)">\(L_3\)</a>
+              </li>
+          </ul>
+          <div class="b-dics" style="width: 1000px; font-weight: 600;">
+              <img src="static/images/360_images/garden_l2_downsample.png" alt="Downsample">  
+              <img src="static/images/360_images/garden_l2_single.png" alt="Single-scale">
+              <img src="static/images/360_images/garden_l2_ours.png" alt="LapisGS (ours)">
+              <img src="static/images/360_images/garden_l2_multiscale.png" alt="Multiscale">
+          </div>
+          <br>
+          <br>
+          <ul class="nav nav-tabs nav-fill nav-justified" id="object-scale-recon-bonsai">
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEventBonsai(0)">\(L_0\)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" onclick="objectSceneEventBonsai(1)">\(L_1\)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEventBonsai(2)">\(L_2\)</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="objectSceneEventBonsai(3)">\(L_3\)</a>
+              </li>
+          </ul>
+          <div class="b-dics" style="width: 1000px; font-weight: 600;">
+              <img src="static/images/360_images/bonsai_l1_downsample.png" alt="Downsample">  
+              <img src="static/images/360_images/bonsai_l1_single.png" alt="Single-scale">
+              <img src="static/images/360_images/bonsai_l1_ours.png" alt="LapisGS (ours)">
+              <img src="static/images/360_images/bonsai_l1_multiscale.png" alt="Multiscale">
+          </div>
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{Shi2024LapisGS,
+  author    = {Shi, Yuang and Gasparini, Simone and Morin, Géraldine and Ooi, Wei Tsang},
+  title     = {LapisGS: Layered Progressive 3D Gaussian Splatting for Adaptive Streaming},
+  journal   = {arXiv preprint arXiv:2408.14823},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. 
+            We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> for developing and open-sourcing this template. 
+            The video comparison with sliding bar is from <a href="https://dorverbin.github.io/refnerf/">Ref-NeRF</a>. 
+            The image comparison with sliding bar is from <a href="https://research.nvidia.com/labs/dir/neuralangelo/">Neuralangelo</a>. 
+          </p>
+        </div>
+      </div>
+          <p></p>
+        </div>
+      </div>
+</footer>
+
+</body>
+</html>
