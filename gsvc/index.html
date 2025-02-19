@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GSVC: Efficient Video Representation and Compression Through 2D Gaussian Splatting.">
+  <meta name="keywords" content="Video Representation, 2D Gaussian Splatting, Video Compression">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GSVC</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="./static/css/bootstrap-4.4.1.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  
+  <link rel="stylesheet" href="./static/css/slider.css">
+  <script src="./static/js/slider.js"></script>
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  
+  <!-- <link rel="stylesheet" href="./static/css/carousel_gsvc.css"> -->
+  <!-- <script src="./static/js/carousel_gsvc.js"></script> -->
+   
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <script src="./static/js/event_handler.js"></script>
+  <script src="./static/js/dics.original.js"></script>
+</head>
+<body>
+
+
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="margin-bottom: 0">
+            <!-- <img src="static/images/lapis.png" alt="icon" style="width: 24px; vertical-align: middle; margin-right: 8px;"> -->
+            <strong>GSVC: </strong>
+          </h1>
+          <h1 class="title is-2 publication-title" style="margin-top: 0; margin-bottom: 0">Efficient Video Representation and Compression Through 2D Gaussian Splatting</h2>
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://longanwang-cs.github.io/">Longan Wang</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://yuang-ian.github.io/">Yuang Shi</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.comp.nus.edu.sg/~ooiwt/">Wei Tsang Ooi</a>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">National University of Singapore,</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2501.12060"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2501.12060"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/LonganWANG-cs/GSVC"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <video id="teaser" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/Beauty_Render.mp4"
+                  type="video/mp4">
+        </video>
+        <figcaption>
+          <h1>
+              Rendered Gaussian-based Video by GSVC
+          </h1>
+        </figcaption>
+        <br><br>
+        <h2 class="subtitle has-text-justified">
+          TL;DR: We introduce <strong><i>GSVC</i></strong>, an approach to learning a set of 2D Gaussian splats that can effectively represent and compress video frames. 
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            This work explores 2D Gaussian splats as a new primitive for representing videos. We propose <strong><i>GSVC</i></strong>, an approach to learning a set of 2D Gaussian splats that can effectively represent and compress video frames. 
+          </p>
+          <p>
+            GSVC incorporates the following techniques: (i) To exploit temporal redundancy among adjacent frames, which can speed up training and improve the compression efficiency, we predict the Gaussian splats of a frame based on its previous frame; (ii) To control the trade-offs between file size and quality, we remove Gaussian splats with low contribution to the video quality; (iii) To capture dynamics in videos, we randomly add Gaussian splats to fit content with large motion or newly-appeared objects; (iv) To handle significant changes in the scene, we detect key frames based on loss differences during the learning process. 
+          </p>
+          <p>
+            Experiment results show that GSVC achieves good rate-distortion trade-offs, comparable to state-of-the-art video codecs such as AV1 and HEVC, and a rendering speed of 1500 fps for a 1920x1080 video.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <h2 class="title is-3 has-text-centered" style="margin-top: -0px">Rendered Videos</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+        <div class="container">
+          <div id="results-carousel" class="carousel results-carousel">
+              <video poster="" id="beauty" autoplay muted loop playsinline height="70%">
+                  <source src="./static/videos/Beauty_Render.mp4" type="video/mp4">
+              </video>
+              <video poster="" id="honeybee" autoplay controls muted loop playsinline height="70%">
+                  <source src="./static/videos/Honeybee_Render.mp4" type="video/mp4">
+              </video>
+              <video poster="" id="jockey" autoplay controls muted loop playsinline height="70%">
+                  <source src="./static/videos/Jockey_Render.mp4" type="video/mp4">
+              </video>
+          </div>
+        </div>
+  </div>
+</section> -->
+
+<!-- <section class="hero is-light is-small">-->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+    <h2 class="title is-3 has-text-centered" style="margin-top: -0px">Gaussian Center Distribution</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div id="results-carousel" class="carousel results-carousel">
+        <video poster="" id="beauty" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/Beauty_GS.mp4" type="video/mp4">
+        </video>
+        <figcaption class="is-centered has-text-centered">
+          <h1>
+              Gaussian Center Distribution of <i>Beauty</i>
+          </h1>
+        </figcaption><br>
+
+        <video poster="" id="honeybee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/Honeybee_GS.mp4" type="video/mp4">
+        </video>
+        <figcaption class="is-centered has-text-centered">
+          <h1>
+              Gaussian Center Distribution of <i>HoneyBee</i>
+          </h1>
+        </figcaption><br>
+
+        <video poster="" id="jockey" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/Jockey_GS.mp4" type="video/mp4">
+        </video>
+        <figcaption class="is-centered has-text-centered">
+          <h1>
+              Gaussian Center Distribution of <i>Jockey</i>
+          </h1>
+        </figcaption><br>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: -30px">Comparison Results</h2>
+        <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+
+        <img src="./static/assets/results_fig.png" class="center" style="width: 100%; margin: 30px auto;">
+
+
+        <div class="container">        
+          
+          <!-- First Comparison -->
+          <h3 class="title is-4">Comparison with I-frame Only Method</h3>
+          <div class="content has-text-justified">
+            <p>
+              GSVC can achieve a significant improvement over the I-frame only method (Ours-GI), which use GaussianImage to encode each frame independently, demonstrating the contributions of predictive frames, pruning, augmentation, and key-frame detections brought to the representation.
+            </p>
+            <p>
+              Notice the floating dots in the up-left video for I-frame only method.
+            </p>
+          </div>
+          <!-- Video Comparison -->
+          <div class="comparison-container" id="comparison-1">
+              <div class="video-wrapper">
+                  <!-- First Video (Left Side) -->
+                  <video class="video-before" autoplay muted loop playsinline>
+                      <source src="./static/videos/compare/Iframe/Jockey.mp4" type="video/mp4">
+                  </video>
+                  
+                  <!-- Second Video (Right Side) -->
+                  <video class="video-after" autoplay muted loop playsinline>
+                      <source src="./static/videos/compare/full/Jockey.mp4" type="video/mp4">
+                  </video>
+                  
+                  <!-- Slider Handle -->
+                  <div class="slider-handle">
+                      <div class="handle-line"></div>
+                      <div class="handle-circle">
+                          <span class="handle-arrow left">◄</span>
+                          <span class="handle-arrow right">►</span>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Video Controls -->
+              <div class="video-controls">
+                  <button class="play-pause-btn">Pause</button>
+                  <button class="reset-btn">Reset</button>
+                  <div class="labels">
+                      <span class="label-left">I-frame Only</span>
+                      <span class="label-right">GSVC (Ours)</span>
+                  </div>
+              </div>
+          </div>
+          
+
+          <!-- Second Comparison -->
+          <h3 class="title is-4">Comparison with Neural-based Methods</h3>
+          <div class="content has-text-justified">
+            <p>
+              The neural-based approach achieves significant improvements over GSVC and even some state-of-the-art codecs such as VVC in terms of MS-SSIM. 
+            </p>
+            <p>  
+              These neural-based approaches, however, are pre-trained on the UVG dataset, and thus the superior performance is not surprising. The standard MPEG/H26x video codec and GSVC do not require any pre-training and can generalize well to any video.
+            </p>
+          </div>
+          <!-- Video Comparison -->
+          <div class="comparison-container" id="comparison-2">
+              <div class="video-wrapper">
+                  <!-- First Video (Left Side) -->
+                  <video class="video-before" autoplay muted loop playsinline>
+                      <source src="./static/videos/compare/DCVC-DC/HoneyBee.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  
+                  <!-- Second Video (Right Side) -->
+                  <video class="video-after" autoplay muted loop playsinline>
+                      <source src="./static/videos/compare/GSVC/HoneyBee.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  
+                  <!-- Slider Handle -->
+                  <div class="slider-handle">
+                      <div class="handle-line"></div>
+                      <div class="handle-circle">
+                          <span class="handle-arrow left">◄</span>
+                          <span class="handle-arrow right">►</span>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Video Controls -->
+              <div class="video-controls">
+                  <button class="play-pause-btn">Pause</button>
+                  <button class="reset-btn">Reset</button>
+                  <div class="labels">
+                      <span class="label-left">DCVC-DC</span>
+                      <span class="label-right">GSVC (Ours)</span>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Third Comparison -->
+          <h3 class="title is-4">Comparison with Standardized Video Codec</h3>
+          <div class="content has-text-justified">
+            <p>
+              GSVC achieves better or comparable performance in terms of MS-SSIM and VMAF (which consider image structure and human perception) except VVC. Our experiments on GSVC yield a lower PSNR in certain scenarios. But, it is important to note that we use \(L_2\) as a loss function, and we can tune the convergence condition to further improve the PSNR, without increasing \(N\), if we sacrifice the encoding time.
+            </p>
+          </div>
+          <!-- Video Comparison -->
+          <div class="comparison-container" id="comparison-3">
+              <div class="video-wrapper">
+                  <!-- First Video (Left Side) -->
+                  <video class="video-before" autoplay muted loop playsinline>
+                      <source src="./static/videos/compare/AVC/Beauty.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  
+                  <!-- Second Video (Right Side) -->
+                  <video class="video-after" autoplay muted loop playsinline>
+                      <source src="./static/videos/compare/GSVC/Beauty.mp4" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  
+                  <!-- Slider Handle -->
+                  <div class="slider-handle">
+                      <div class="handle-line"></div>
+                      <div class="handle-circle">
+                          <span class="handle-arrow left">◄</span>
+                          <span class="handle-arrow right">►</span>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Video Controls -->
+              <div class="video-controls">
+                  <button class="play-pause-btn">Pause</button>
+                  <button class="reset-btn">Reset</button>
+                  <div class="labels">
+                      <span class="label-left">AVC</span>
+                      <span class="label-right">GSVC (Ours)</span>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Video Comparison -->
+          <div class="comparison-container" id="comparison-4">
+            <div class="video-wrapper">
+                <!-- First Video (Left Side) -->
+                <video class="video-before" autoplay muted loop playsinline>
+                    <source src="./static/videos/compare/HEVC/Jockey.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Second Video (Right Side) -->
+                <video class="video-after" autoplay muted loop playsinline>
+                    <source src="./static/videos/compare/GSVC/Jockey.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Slider Handle -->
+                <div class="slider-handle">
+                    <div class="handle-line"></div>
+                    <div class="handle-circle">
+                        <span class="handle-arrow left">◄</span>
+                        <span class="handle-arrow right">►</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button class="play-pause-btn">Pause</button>
+                <button class="reset-btn">Reset</button>
+                <div class="labels">
+                    <span class="label-left">HEVC</span>
+                    <span class="label-right">GSVC (Ours)</span>
+                </div>
+            </div>
+          </div>
+
+
+          <!-- Video Comparison -->
+          <div class="comparison-container" id="comparison-5">
+            <div class="video-wrapper">
+                <!-- First Video (Left Side) -->
+                <video class="video-before" autoplay muted loop playsinline>
+                    <source src="./static/videos/compare/VVC/HoneyBee.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Second Video (Right Side) -->
+                <video class="video-after" autoplay muted loop playsinline>
+                    <source src="./static/videos/compare/GSVC/HoneyBee.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Slider Handle -->
+                <div class="slider-handle">
+                    <div class="handle-line"></div>
+                    <div class="handle-circle">
+                        <span class="handle-arrow left">◄</span>
+                        <span class="handle-arrow right">►</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button class="play-pause-btn">Pause</button>
+                <button class="reset-btn">Reset</button>
+                <div class="labels">
+                    <span class="label-left">VVC</span>
+                    <span class="label-right">GSVC (Ours)</span>
+                </div>
+            </div>
+          </div>
+        
+
+          <!-- Video Comparison -->
+          <div class="comparison-container" id="comparison-6">
+            <div class="video-wrapper">
+                <!-- First Video (Left Side) -->
+                <video class="video-before" autoplay muted loop playsinline>
+                    <source src="./static/videos/compare/AV1/Beauty.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Second Video (Right Side) -->
+                <video class="video-after" autoplay muted loop playsinline>
+                    <source src="./static/videos/compare/GSVC/Beauty.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                
+                <!-- Slider Handle -->
+                <div class="slider-handle">
+                    <div class="handle-line"></div>
+                    <div class="handle-circle">
+                        <span class="handle-arrow left">◄</span>
+                        <span class="handle-arrow right">►</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Controls -->
+            <div class="video-controls">
+                <button class="play-pause-btn">Pause</button>
+                <button class="reset-btn">Reset</button>
+                <div class="labels">
+                    <span class="label-left">AV1</span>
+                    <span class="label-right">GSVC (Ours)</span>
+                </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{wang2025gsvc,
+      title={{GSVC}: Efficient Video Representation and Compression Through {2D Gaussian} Splatting},
+      author={Wang, Longan and Shi, Yuang and Ooi, Wei Tsang},
+      journal={arXiv preprint arXiv:2501.12060},
+      year={2025}
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. 
+            We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> for developing and open-sourcing this template. 
+            The video comparison with sliding bar is from <a href="https://dorverbin.github.io/refnerf/">Ref-NeRF</a>. 
+            The image comparison with sliding bar is from <a href="https://research.nvidia.com/labs/dir/neuralangelo/">Neuralangelo</a>. 
+          </p>
+        </div>
+      </div>
+          <p></p>
+        </div>
+      </div>
+</footer>
+
+</body>
+</html>
