@@ -658,6 +658,9 @@
             <td style="padding:0px">
               <br>
               <p style="text-align:center;font-size:small;">
+                Last updated: <a id="demo"></a>.
+              </p>
+              <p style="text-align:center;font-size:small;">
                 This template comes from Jon Barron's public academic <a href="https://jonbarron.info/">website</a>. ❤️
               </p>
             </td>
@@ -667,5 +670,10 @@
     </tr>
   </table>
 </body>
+
+<script>
+  let text = document.lastModified;
+  document.getElementById("demo").innerHTML = text;
+</script>
 
 </html>
