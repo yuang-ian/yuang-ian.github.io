@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="EvoGS: Constructing Continuous-Layered Gaussian Splatting with Evolution Tree for Scalable 3D Streaming.">
+  <meta name="keywords" content="3D Gaussian Splatting, Continuous Layering, Evolution Tree, Wavelet, Scalable Streaming, Level of Detail">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EvoGS</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="./static/css/bootstrap-4.4.1.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <script src="./static/js/event_handler.js"></script>
+  <script src="./static/js/dics.original.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="margin-bottom: 0">
+            <strong>EvoGS: </strong>
+          </h1>
+          <h1 class="title is-3 publication-title" style="margin-top: 0; margin-bottom: 0">
+            Constructing Continuous-Layered Gaussian Splatting with Evolution Tree for Scalable 3D Streaming
+          </h1>
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://yuang-ian.github.io">Yuang Shi</a><sup>1,2,3</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=PbKu-PsAAAAJ&hl=en">Simone Gasparini</a><sup>2,3</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.de/citations?user=H8QDhhAAAAAJ&hl=en">Géraldine Morin</a><sup>2,3</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.comp.nus.edu.sg/~ooiwt/">Wei Tsang Ooi</a><sup>1,3</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>National University of Singapore,</span>
+            <span class="author-block"><sup>2</sup>IRIT &mdash; University of Toulouse,</span>
+            <span class="author-block"><sup>3</sup>IPAL, IRL2955</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2606.07179"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2606.07179"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link.
+              <span class="link-block">
+                <a href="#"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <img src="./static/images/teaser.png" class="center" style="width: 100%">
+        <br>
+        <br>
+        <h2 class="subtitle has-text-justified">
+          TL;DR: We introduce <strong><i>EvoGS</i></strong>, the first <strong>continuous-layered</strong> 3D Gaussian Splatting (3DGS) representation. EvoGS organizes splats into an <strong>Evolution Tree</strong> in which each parent splat evolves into correlated children via a wavelet-inspired refinement, eliminating ghost-splat redundancy and supporting smooth, anytime progressive streaming.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <h2 class="title is-3 has-text-centered">Abstract</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            Streaming 3D Gaussian Splatting requires highly scalable, progressive representations. Existing progressive methods rely on <strong><i>discrete layering</i></strong>, accumulating separate splat sets for each level of detail. This structural independence between layers inherently leads to error accumulation, severe splat redundancy, and uncontrolled quality transitions.
+          </p>
+          <p>
+            We propose <strong><i>EvoGS</i></strong>, the first <strong>continuous-layering</strong> representation. Organized as an <strong>Evolution Tree</strong>, EvoGS generates finer details via an explicit, wavelet-inspired parent&ndash;child refinement. This empowers child nodes to structurally correct ancestral errors and yields inherently sparse, highly compressible inter-layer signals.
+          </p>
+          <p>
+            Extensive experiments show EvoGS eliminates splat redundancy from over <strong>65%</strong> to under <strong>25%</strong>. Compared to state-of-the-art baselines, it reduces transmission payload and GPU VRAM footprint by up to <strong>2.4&times;</strong> and <strong>5.5&times;</strong>, respectively, and achieves smooth quality transitions optimal for real-time adaptive streaming.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Motivation</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            Immersive XR streaming faces heterogeneous devices, interactive 6DoF navigation, and dynamic bandwidth/memory budgets. A streamable 3DGS representation must therefore offer <strong>quality scalability</strong>, <strong>rendering scalability</strong>, and <strong>real-time adaptation</strong>. Existing progressive 3DGS methods all share a common construction principle &mdash; each LOD is an <strong>independent</strong> splat set trained for its target resolution. We term this <strong><i>discrete layering</i></strong>.
+          </p>
+          <p>
+            Discrete layering's inter-layer relationship is <strong>compositional, not evolutionary</strong>: higher layers visually mask lower-layer errors via 2D blending rather than correcting them. This compositional construction creates a cascade of problems: error accumulation, severe splat redundancy (&gt;65% transparent ghost splats at fine LODs), uncontrolled quality transitions, and unexploitable inter-layer correlation.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- The three paradigms figure -->
+    <h3 class="title is-4 has-text-centered" style="margin-top: 20px;">Three Paradigms for LOD&nbsp;3DGS</h3>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+
+        <!-- (a) Space-based -->
+        <div class="content">
+          <p><strong>(a) Space-based hierarchy</strong> &mdash; for local rendering. Whole model resides on the client; LODs are obtained by selecting spatial subsets at render time.</p>
+          <div class="columns is-mobile is-centered">
+            <div class="column is-2"><img src="./static/images/lod_illus/spatial_lod0.png" style="width:100%"><p>LOD 0</p></div>
+            <div class="column is-2"><img src="./static/images/lod_illus/spatial_lod1.png" style="width:100%"><p>LOD 1</p></div>
+            <div class="column is-2"><img src="./static/images/lod_illus/spatial_lod2.png" style="width:100%"><p>LOD 2</p></div>
+            <div class="column is-2"><img src="./static/images/lod_illus/spatial_lod3.png" style="width:100%"><p>LOD 3</p></div>
+          </div>
+        </div>
+
+        <!-- (b) Discrete -->
+        <div class="content">
+          <p><strong>(b) Discrete-layered hierarchy</strong> &mdash; existing scalable streaming. Each LOD adds an independent splat set; layers share no structural relationship, producing abrupt quality jumps and ghost-splat redundancy.</p>
+          <div class="columns is-mobile is-centered">
+            <div class="column is-2"><img src="./static/images/lod_illus/lapis_lod0.png" style="width:100%"><p>LOD 0</p></div>
+            <div class="column is-2"><img src="./static/images/lod_illus/lapis_lod1.png" style="width:100%"><p>LOD 1</p></div>
+            <div class="column is-2"><img src="./static/images/lod_illus/lapis_lod2.png" style="width:100%"><p>LOD 2</p></div>
+            <div class="column is-2"><img src="./static/images/lod_illus/lapis_lod3.png" style="width:100%"><p>LOD 3</p></div>
+          </div>
+        </div>
+
+        <!-- (c) Continuous -->
+        <div class="content">
+          <p><strong>(c) Continuous-layered hierarchy (Ours)</strong> &mdash; each LOD is a <em>structured refinement</em> of the previous one via an explicit parent&ndash;child Evolution Tree. Quality improves smoothly and continuously as data arrives.</p>
+          <img src="./static/images/lod_illus/tree_continuous.png" class="center" style="width: 100%;">
+          <div class="columns is-mobile is-centered" style="margin-top: -10px;">
+            <div class="column is-2"><p>LOD 0</p></div>
+            <div class="column is-2"><p>LOD 1</p></div>
+            <div class="column is-2"><p>LOD 2</p></div>
+            <div class="column is-2"><p>LOD 3</p></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Methodology</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+
+    <!-- High-level idea -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-half image-column">
+        <img src="./static/images/continuous_vs_discrete.png" class="center" style="width: 100%">
+      </div>
+      <div class="column is-half image-column">
+        <div class="content has-text-justified">
+          <p>
+            <strong>From discrete to continuous.</strong> In discrete layering (top), the splat at LOD&nbsp;0 stays frozen and is always rendered at LOD&nbsp;1; higher quality is achieved by <em>stacking</em> additional splats on top &mdash; producing redundant ghost splats.
+          </p>
+          <p>
+            In our <strong>Evolution Tree</strong> (bottom), the parent splat at LOD&nbsp;0 <em>evolves</em> into child splats that <strong>replace</strong> it at LOD&nbsp;1. Children structurally adapt to the finer geometry, achieving smooth quality transitions without accumulating redundant ancestors.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design Space -->
+    <h3 class="title is-4 has-text-centered" style="margin-top: 30px;">Design Space for Parent&ndash;Child Refinement</h3>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            Let \(\boldsymbol{P}\in\mathbb{R}^D\) denote a parent splat's parameters (position, rotation, scale, opacity, SH). We evaluate four constructions for its two children \(\boldsymbol{C_1},\boldsymbol{C_2}\):
+          </p>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/options/optionA.png" style="width:100%">
+            <p><strong>A.</strong> Independent children (\(2D\) param.)</p>
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/options/OptionB.png" style="width:100%">
+            <p><strong>B.</strong> Independent residuals (\(2D\) param.)</p>
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/options/OptionC.png" style="width:100%">
+            <p><strong>C.</strong> Symmetric collinear residual (\(D\) param.)</p>
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/options/OptionD.png" style="width:100%">
+            <p><strong>D.</strong> Asymmetric collinear residual (\(D{+}5\) param.) &mdash; ours</p>
+          </div>
+        </div>
+
+        <div class="content has-text-justified">
+          <p>
+            Options A&nbsp;and&nbsp;B place no structural constraint on parent&ndash;child proximity, so coarse renderings are unreliable and the refinement signal is unstructured. Option&nbsp;C enforces a <em>symmetric</em> collinear residual,
+            \[
+              \boldsymbol{C_1}=\boldsymbol{P}+\boldsymbol{\psi},\qquad \boldsymbol{C_2}=\boldsymbol{P}-\boldsymbol{\psi},
+            \]
+            which is exactly the <strong>Haar wavelet lifting scheme</strong>: \(\boldsymbol{P}\) is the approximation coefficient and \(\boldsymbol{\psi}\) the detail coefficient. This guarantees sparse refinements but the rigid equal-magnitude constraint wastes capacity on real, non-symmetric scene details.
+          </p>
+          <p>
+            We therefore adopt Option&nbsp;D, the <strong>asymmetric collinear residual</strong>:
+            \[
+              \boldsymbol{C_1}=\boldsymbol{P}+\boldsymbol{\psi},\qquad \boldsymbol{C_2}=\boldsymbol{P}-\boldsymbol{\alpha}\odot\boldsymbol{\psi},
+            \]
+            where \(\boldsymbol{\alpha}\in\mathbb{R}^5\) is a learned per-attribute asymmetry factor. Paralleling JPEG&nbsp;2000's biorthogonal lifting over orthogonal Haar wavelets, \(\boldsymbol{\alpha}\) trades exact mean preservation for representational power while preserving wavelet sparsity (see Inter-Layer Analysis below).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tree structure + training/rendering -->
+    <h3 class="title is-4 has-text-centered" style="margin-top: 30px;">Evolution Tree</h3>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            The Evolution Tree consists of <strong>root nodes</strong> (baseline geometry \(\boldsymbol{P_{\text{root}}}\in\mathbb{R}^D\)), <strong>internal nodes</strong> (learned refinements \(\boldsymbol{\psi}, \boldsymbol{\alpha}\)), and <strong>leaf nodes</strong> (renderable splats). A leaf's final parameters are accumulated along its ancestral chain:
+            \[
+              \boldsymbol{S} \;=\; \boldsymbol{P_{\text{root}}} \;+\; \sum_{k=1}^{\ell}\boldsymbol{s_k}\odot\boldsymbol{\psi_k},\qquad \boldsymbol{s_k}\in\{+\mathbf{1},\,-\boldsymbol{\alpha}_k\}.
+            \]
+          </p>
+          <p>
+            <strong>Progressive training.</strong> The base model \(L_0\) is trained at the coarsest resolution \(\mathbf{D}_0\) and each splat becomes a root. At every subsequent level \(L_i\), gradient-driven densification splits selected leaves into two children whose \(\boldsymbol{\psi}\) and \(\boldsymbol{\alpha}\) are unfrozen, while all ancestors remain fixed. The resulting tree is <em>unbalanced and spatially adaptive</em>: complex regions densify deeply, smooth regions stay shallow.
+          </p>
+          <p>
+            <strong>Rendering.</strong> At inference, the client requests a quality level \(L_i\); the active leaf set \(\mathcal{F}_i\) is reconstructed via the equation above and passed to the standard 3DGS rasterizer. Because nodes role-swap (leaf at coarse, internal at fine), one stored tree serves all quality tiers, and spatial regions can even be rendered at <em>mixed</em> qualities simultaneously &mdash; structurally impossible in discrete layering.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Results</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+
+    <!-- Key numbers -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            We evaluate on <strong>Synthetic Blender</strong>, <strong>Mip-NeRF360</strong>, <strong>Tanks&amp;Temples</strong>, and <strong>Deep Blending</strong> against <em>Monolithic</em>, <em>Single</em>, <em>LapisGS</em>, and <em>L3GS</em>. Two size metrics are reported: <strong>Storage</strong> (cumulative transmitted bytes) and <strong>Memory</strong> (rendering GPU footprint, strictly smaller than storage for EvoGS because internal-node \(\boldsymbol{\psi}, \boldsymbol{\alpha}\) are consumed during leaf reconstruction).
+          </p>
+        </div>
+
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <p class="title is-1" style="color: #53a8da; margin-bottom: 0;">+0.69 dB</p>
+            <p>PSNR gain over best discrete baseline (T&amp;T, \(L_1\))</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="title is-1" style="color: #53a8da; margin-bottom: 0;">2.4&times;</p>
+            <p>Less transmission payload</p>
+          </div>
+          <div class="column has-text-centered">
+            <p class="title is-1" style="color: #53a8da; margin-bottom: 0;">5.5&times;</p>
+            <p>Less GPU rendering memory</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quality-size scatter -->
+    <h3 class="title is-4">Quality&ndash;Size Tradeoff</h3>
+    <div class="content has-text-justified">
+      <p>
+        Each point is one scene at one quality level (SSIM vs.&nbsp;normalized model size). EvoGS (red stars) consistently dominates the top-left corner across all four levels; LapisGS (orange) and L3GS (purple) drift rightward as quality increases.
+      </p>
+    </div>
+    <div class="columns is-mobile">
+      <div class="column"><img src="./static/images/visualization/scatter_SSIM_8.png" style="width:100%"><p class="has-text-centered">\(L_0\)</p></div>
+      <div class="column"><img src="./static/images/visualization/scatter_SSIM_4.png" style="width:100%"><p class="has-text-centered">\(L_1\)</p></div>
+      <div class="column"><img src="./static/images/visualization/scatter_SSIM_2.png" style="width:100%"><p class="has-text-centered">\(L_2\)</p></div>
+      <div class="column"><img src="./static/images/visualization/scatter_SSIM_1.png" style="width:100%"><p class="has-text-centered">\(L_3\)</p></div>
+    </div>
+
+    <!-- Qualitative -->
+    <h3 class="title is-4" style="margin-top: 30px;">Qualitative Comparison</h3>
+    <div class="content has-text-justified">
+      <p>
+        Sample renderings of <em>Playroom</em> at four quality levels. Switch \(L_0\)&ndash;\(L_3\) with the tabs, then drag the vertical handles to slide between methods. <em>Monolithic</em> is an independent full model per LOD (upper bound); <em>Single</em> is one full-resolution model rendered at every level; <em>LapisGS</em> is the discrete-layering SOTA. <em>EvoGS&nbsp;(Sym.)</em> is our symmetric ablation and <em>EvoGS&nbsp;(Asym.)</em> is our final asymmetric model. LapisGS accumulates the geometry errors from coarse layers, while EvoGS corrects ancestral errors at every level, producing coherent geometry already at \(L_0\) and scaling smoothly to high fidelity at \(L_3\).
+      </p>
+    </div>
+
+    <div class="container" style="margin-top: 16px;">
+      <ul class="nav nav-tabs nav-fill nav-justified" id="evogs-qual-tabs">
+        <li class="nav-item"><a class="nav-link active" onclick="evogsQualEvent(0)">\(L_0\)</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="evogsQualEvent(1)">\(L_1\)</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="evogsQualEvent(2)">\(L_2\)</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="evogsQualEvent(3)">\(L_3\)</a></li>
+      </ul>
+      <div class="b-dics" style="width: 100%; font-weight: 600;">
+        <img src="static/images/visualization/mono_l0.png"   alt="Monolithic">
+        <img src="static/images/visualization/single_l0.png" alt="Single">
+        <img src="static/images/visualization/lapis_l0.png"  alt="LapisGS">
+        <img src="static/images/visualization/sym_l0.png"    alt="EvoGS (Sym.)">
+        <img src="static/images/visualization/asym_l0.png"   alt="EvoGS (Asym., ours)">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Inter-Layer Analysis</h2>
+    <hr style="width: 90%; height: 2px; background-color: #53a8da; border: none; margin: 30px auto;">
+
+    <!-- Splat redundancy -->
+    <h3 class="title is-4">Splat Redundancy</h3>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="content has-text-justified">
+          <p>
+            We measure the ratio of <em>transparent splats</em> (opacity below 0.005) at each LOD. In LapisGS, the discrete layers cannot structurally correct lower-layer errors, so the optimizer fades them out as a workaround: <strong>93.8%</strong> of Layer 0 and <strong>88.7%</strong> of Layer 1 splats become transparent by LOD 3, yet they still occupy storage and GPU memory.
+          </p>
+          <p>
+            EvoGS evolves rather than overlays splats, dropping the total transparent ratio from over <strong>65%</strong> to under <strong>25%</strong> at LOD 3. The symmetric variant lies in between, confirming that the rigid equal-magnitude constraint forces some children into sub-optimal positions that the optimizer must then suppress &mdash; a milder version of the LapisGS failure mode.
+          </p>
+        </div>
+      </div>
+      <div class="column is-half">
+        <table class="table is-fullwidth is-bordered is-striped has-text-centered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>\(L_0\)</th>
+              <th>\(L_1\)</th>
+              <th>\(L_2\)</th>
+              <th>\(L_3\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LapisGS</td><td>15.9%</td><td>46.9%</td><td>55.6%</td><td>65.8%</td>
+            </tr>
+            <tr>
+              <td>EvoGS (Sym.)</td><td>14.4%</td><td>26.0%</td><td>33.7%</td><td>38.9%</td>
+            </tr>
+            <tr style="font-weight: bold; background-color: rgba(83,168,218,0.08);">
+              <td>EvoGS</td><td>12.1%</td><td>17.0%</td><td>21.0%</td><td>24.9%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="has-text-centered" style="font-size: 0.9em;">Ratio of transparent splats (averaged across datasets).</p>
+      </div>
+    </div>
+
+    <!-- Smooth quality transitions -->
+    <h3 class="title is-4" style="margin-top: 30px;">Smooth Quality Transitions</h3>
+    <div class="content has-text-justified">
+      <p>
+        We simulate progressive transmission from LOD 0 to LOD 3 and record intermediate snapshots as bytes arrive. EvoGS prioritizes splats with high refinement energy \(\|\boldsymbol{\psi}\|\); LapisGS transmits in descending opacity order.
+      </p>
+      <p>
+        The videos below play back the rendered view at a fixed camera as data is progressively received. <strong>LapisGS</strong> (left) shows the discrete-layering pattern &mdash; long plateaus broken by <em><strong>abrupt visual jumps</strong></em> at each LOD boundary &mdash; while <strong>EvoGS</strong> (right) refines the scene smoothly and monotonically with every received byte.
+      </p>
+    </div>
+
+    <div class="columns is-vcentered">
+      <div class="column is-two-thirds has-text-centered">
+        <video autoplay muted loop playsinline style="width: 100%; border: 1px solid #ddd;">
+          <source src="./static/videos/progressive_comparison.mp4" type="video/mp4">
+        </video>
+        <p style="margin-top: 8px;">
+          <strong>LapisGS</strong> (discrete layering, left) &nbsp;vs.&nbsp; <strong>EvoGS</strong> (continuous layering, ours, right).
+        </p>
+      </div>
+      <div class="column is-one-third has-text-centered">
+        <img src="./static/images/continuous_render/lego_PSNR.png" style="width: 100%;">
+        <p style="margin-top: 8px; font-size: 0.95em;">
+          PSNR vs. received bytes on <em>Lego</em>. EvoGS rises monotonically; LapisGS plateaus and then steps up at each LOD boundary.
+        </p>
+      </div>
+    </div>
+    <p class="has-text-centered" style="font-size: 0.9em; margin-bottom: 24px;">
+      Same scene, same fixed camera, same elapsed time = same number of received bytes. Both streams start from an empty scene and end at full quality.
+    </p>
+
+    <!-- Compressibility -->
+    <h3 class="title is-4" style="margin-top: 30px;">Compressibility</h3>
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <img src="./static/images/compressibility/psi_energy_concentration_sym.png" style="width:100%">
+        <p class="has-text-centered">Symmetric (Option C).</p>
+      </div>
+      <div class="column is-half">
+        <img src="./static/images/compressibility/psi_energy_concentration_asym.png" style="width:100%">
+        <p class="has-text-centered">Asymmetric (Option D, ours).</p>
+      </div>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        In both constructions, the refinement coefficients \(\boldsymbol{\psi}\) retain wavelet sparsity: fewer than <strong>20%</strong> of coefficients carry over <strong>90%</strong> of the energy. This sparsity makes \(\boldsymbol{\psi}\) ideal for off-the-shelf compression. Passing EvoGS through a basic <em>8-bit uniform quantization&nbsp;+ zstd</em> pipeline shrinks Deep&nbsp;Blending \(L_3\) from <strong>347.4&nbsp;MB</strong> to <strong>91.8&nbsp;MB</strong> &mdash; just <strong>11.5%</strong> of LapisGS &mdash; with a negligible PSNR drop of <strong>0.10&nbsp;dB</strong>.
+      </p>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-three-quarters">
+        <table class="table is-fullwidth is-bordered is-striped has-text-centered">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th colspan="2">\(L_0\)</th>
+              <th colspan="2">\(L_1\)</th>
+              <th colspan="2">\(L_2\)</th>
+              <th colspan="2">\(L_3\)</th>
+            </tr>
+            <tr>
+              <th>PSNR</th><th>Stor.</th>
+              <th>PSNR</th><th>Stor.</th>
+              <th>PSNR</th><th>Stor.</th>
+              <th>PSNR</th><th>Stor.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>LapisGS</td>
+              <td>29.13</td><td>152.3</td>
+              <td>29.00</td><td>325.5</td>
+              <td>28.47</td><td>544.2</td>
+              <td>27.64</td><td>801.8</td>
+            </tr>
+            <tr>
+              <td>EvoGS</td>
+              <td>29.66</td><td>105.2</td>
+              <td>29.55</td><td>188.7</td>
+              <td>28.86</td><td>276.6</td>
+              <td>27.73</td><td>347.4</td>
+            </tr>
+            <tr style="font-weight: bold; background-color: rgba(83,168,218,0.08);">
+              <td>EvoGS w/ Comp.</td>
+              <td>29.53</td><td>42.9</td>
+              <td>29.32</td><td>59.3</td>
+              <td>28.59</td><td>76.5</td>
+              <td>27.63</td><td>91.8</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="has-text-centered" style="font-size: 0.9em;">PSNR (dB) and cumulative transmitted size (MB), averaged across all datasets.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{shi2026evogs,
+  author    = {Shi, Yuang and Gasparini, Simone and Morin, G\'eraldine and Ooi, Wei Tsang},
+  title     = {{EvoGS}: Constructing Continuous-Layered {Gaussian Splatting} with Evolution Tree for Scalable 3D Streaming},
+  year      = {2026},
+}</code></pre>
+
+    <p>
+      EvoGS builds on our prior work on layered 3DGS streaming:
+    </p>
+    <pre><code>@inproceedings{DBLP:conf/3dim/ShiMGO25,
+  author       = {Yuang Shi and
+                  G{\'{e}}raldine Morin and
+                  Simone Gasparini and
+                  Wei Tsang Ooi},
+  title        = {{LapisGS}: Layered Progressive {3D Gaussian} Splatting for Adaptive Streaming},
+  booktitle    = {International Conference on 3D Vision, 3DV 2025, Singapore, March
+                  25-28, 2025},
+  pages        = {991--1000},
+  year         = {2025},
+  doi          = {10.1109/3DV66043.2025.00096},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+            We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> for developing and open-sourcing this template.
+          </p>
+        </div>
+      </div>
+      <p></p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
