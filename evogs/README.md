@@ -98,8 +98,5 @@ Heads-up: also fix the float32 budget-boundary bug in `scripts/progressive_sweep
 
 ## TODO before going public
 
-- Fill in the **Paper / arXiv / Code** links in the hero buttons (currently `href="#"`).
 - Confirm the BibTeX entry once the venue / year is known.
-- Drop the two progressive-streaming videos at the paths above.
 - Optional: add a teaser video (place under `static/videos/`) and swap the teaser image for an autoplaying clip, matching the GSVC layout.
-- Optional: add side-by-side image sliders (using the `dics.original.*` assets already copied over) for the qualitative comparison &mdash; would require splitting the stitched `visualization.png` into per-method tiles per LOD.
